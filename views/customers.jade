@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  table
+    tr
+      th Name
+      th Phone
+    each customer in customers
+      tr
+        th #{customer.name}
+        th #{customer.phone}
