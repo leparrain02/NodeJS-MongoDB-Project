@@ -5,6 +5,7 @@ dbpassword=qwerty
 dbserver=mongodb
 dbport=27017
 dbname=mynodedb
+dbvolume=/data/NodeRepo/db
 appname=mynodeapp
 
 if [[ $# -eq 0 ]]; then
@@ -40,7 +41,7 @@ if [[ $? -ne 0 ]]; then
     echo "Removing old container of ${dbserver}"
     docker rm ${dbserver}
   fi
-  docker run -d -p 27017:27017 -v /data/NodeRepo/db:/data/db -e MONGODB_USER="${dbuser}" -e MONGODB_DATABASE="${dbname}" -e MONGODB_PASS="${dbpassword}" --name ${dbserver} tutum/mongodb
+  docker run -d -p 27017:27017 -v ${dbvolume}:/data/db -e MONGODB_USER="${dbuser}" -e MONGODB_DATABASE="${dbname}" -e MONGODB_PASS="${dbpassword}" --name ${dbserver} tutum/mongodb
 fi
 
 echo "Running app in a new container"
