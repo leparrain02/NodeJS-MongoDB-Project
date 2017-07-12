@@ -1,13 +1,32 @@
 extends layout
 
+block sourcing
+   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+   script(src='/javascripts/customers.js')
+
 block content
   h1= title
   p Welcome to #{title}
-  table
-    tr
-      th Name
-      th Phone
-    each customer in customers
-      tr
-        th #{customer.name}
-        th #{customer.phone}
+  div#custlist
+    table
+      thead
+        tr
+          th Name
+          th Phone
+      tbody
+        each customer in customers
+          tr
+            td #{customer.name}
+            td #{customer.phone}
+
+  br
+  div
+    div
+      span Name: 
+      input(type="text",id="name")
+    div
+      span Phone:
+      input(type="text",id="phone")
+    input(type="button",value="Ajouter",id="addcustomer") 
+  br
+  div#errmsg
