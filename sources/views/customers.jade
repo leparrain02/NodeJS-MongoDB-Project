@@ -21,12 +21,17 @@ block content
 
   br
   div
-    div
-      span Name: 
-      input(type="text",id="name")
-    div
-      span Phone:
-      input(type="text",id="phone")
-    input(type="button",value="Ajouter",id="addcustomer") 
+    div.custtotal
+      div.custname
+        span Name: 
+      div.custinput
+        input(type="text",id="name")
+    div.custtotal
+      div.custname
+        span Phone:
+      div.custinput
+        input(type="text",id="phone")
+    input(type="button",value="Add",id="addcustomer") 
   br
   div#errmsg
+    p #{errmsg}

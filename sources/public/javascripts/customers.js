@@ -3,7 +3,7 @@ $(document).ready(function(){
   $('#addcustomer').on('click', function(){
     var customer = {
       name: $('#name').val(),
-      phone: $('#phone').val()
+      phone: $('#phone').val(),
     };
 
 

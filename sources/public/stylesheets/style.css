@@ -17,4 +17,25 @@ table, th, td {
 
 th, td {
   text-align: left;
+  width: 230px;
+}
+
+div.custtotal{
+  width: 300px;
+  margin-top: 5px;
+}
+
+div.custname {
+  width: 70px;
+  float: left;
+}
+
+div.custinput {
+  width: 230px;
+  margin-left: 75px;
+}
+
+#addcustomer {
+  margin-left: 115px;
+  margin-top: 5px;
 }

@@ -2,11 +2,12 @@
 
 dbuser=unodejs
 dbpassword=qwerty
-dbserver=mongodb
+dbserver=mongodbcust
 dbport=27017
 dbname=mynodedb
-dbvolume=/data/NodeRepo/db
+dbvolume=/home2/mongoDB/db
 appname=mynodeapp
+title='Customers Automation Testing'
 
 if [[ $# -eq 0 ]]; then
   PORT=10080
@@ -15,10 +16,9 @@ else
 fi
 
 echo "Make sure app isn't running in docker"
-for container in `docker ps|tail -n +2|awk -v appname=${appname} '$2 == appname {print $1}'`;do
+for container in `docker ps -a -f ancestor="${appname}" -q 2>/dev/null`; do
   echo "Kill and removing container ${container}"
-  docker kill ${container}
-  docker rm ${container}
+  docker rm -f ${container}
 done
 
 echo "Removing the old image"
@@ -30,14 +30,14 @@ sed -i -e "s/^ENV PORT=.*\$/ENV PORT=$PORT/"\
   -e "s/^ENV DBPASSWORD=.*\$/ENV DBPASSWORD=$dbpassword/"\
   -e "s/^ENV DBSERVER=.*\$/ENV DBSERVER=$dbserver/"\
   -e "s/^ENV DBPORT=.*\$/ENV DBPORT=$dbport/"\
-  -e "s/^ENV DBNAME=.*\$/ENV DBNAME=$dbname/" Dockerfile
+  -e "s/^ENV DBNAME=.*\$/ENV DBNAME=$dbname/"\
+  -e "s/^ENV TITLE=.*\$/ENV TITLE='$title'/" Dockerfile
 echo "Building the new image"
 docker build -t ${appname} .
 
 echo "Make sure DB is running"
-docker ps |grep "${dbserver}" >/dev/null 2>&1
-if [[ $? -ne 0 ]]; then
-  if docker ps -a |grep "${dbserver}" >/dev/null 2>&1 ; then
+if [[ `docker ps -f name="${dbserver}" -q |wc -l|awk '{print $1}' 2>/dev/null` -eq 0 ]]; then
+  if [[ `docker ps -a -f name="${dbserver}" -q |wc -l|awk '{print $1}' 2>/dev/null` -gt 0 ]]; then
     echo "Removing old container of ${dbserver}"
     docker rm ${dbserver}
   fi
